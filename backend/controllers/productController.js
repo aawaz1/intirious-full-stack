@@ -3,7 +3,7 @@ import Product from "../models/productModel.js";
 
 // @desc fetch all products
 // @routes GET api/products
-// @acceess - public
+// @access - public
 
 const getProducts = asyncHandler( async(req ,res) => {
     const products = await Product.find({
@@ -11,11 +11,11 @@ const getProducts = asyncHandler( async(req ,res) => {
     })
     res.json(products);
 
-})
+});
 
 // @desc fetch single product by id
 // @routes GET api/products/:id
-// @acceess - public
+// @access - public
 
 const getProductById = asyncHandler(async(req,res) => {
    
@@ -33,4 +33,61 @@ const getProductById = asyncHandler(async(req,res) => {
 
 })
 
-export {getProductById ,getProducts};
+// @desc create single product
+// @routes POST api/products
+// @access - private/admin
+
+
+   const createProduct = asyncHandler(async (req, res) => {
+      const product = new Product({
+        name: 'Sample name',
+        price: 0,
+        user: req.user._id,
+        image: '/images/sample.jpg',
+        brand: 'Sample brand',
+        category: 'Sample category',
+        countInStock: 0,
+        numReviews: 0,
+        description: 'Sample description',
+      });
+    
+      const createdProduct = await product.save();
+      res.status(201).json(createdProduct);
+    });
+
+    // @desc fetch all products
+// @routes GET api/products
+// @access - public
+
+const updateProduct = asyncHandler( async(req ,res) => {
+   const {name,price,description, image ,brand, category,countInStock} = req.body;
+
+   const product = await Product.findById(req.params.id);
+
+   if(product){
+      product.name = name;
+      product.price = price;
+      product.description = description;
+      product.image = image;
+      product.brand = brand;
+      product.category = category;
+      product.countInStock = countInStock;
+
+      const updatedProduct = await product.save();
+      res.json(updatedProduct);
+
+
+   }else{
+      res.status(404)
+      throw new Error("product not updated");
+   }
+   
+   
+
+});
+
+   
+
+
+
+export {getProductById ,getProducts , createProduct, updateProduct};
