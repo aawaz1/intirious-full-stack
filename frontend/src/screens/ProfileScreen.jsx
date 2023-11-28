@@ -17,6 +17,22 @@ const ProfileScreen = () => {
 
 
     const dispatch = useDispatch();
+    const {userInfo} = useSelector((state) => state.auth );
+    useEffect(() => {
+        if(userInfo){
+            setName(userInfo.name);
+            setEmail(userInfo.email);
+            // setPassword(userInfo.password);
+            // setConfirmPassword(userInfo.confirmPassword);
+
+        }else{
+
+        }
+    },[userInfo.name , userInfo.email])
+
+    const submitHandler = (e) => {
+        
+    }
   return (
     <div>ProfileScreen</div>
   )

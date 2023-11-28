@@ -2,7 +2,7 @@ import asyncHandler from "../middlewares/asyncHandler.js";
 import User from "../models/userModel.js";
 import jwt from 'jsonwebtoken';
 import generateToken from "../utils/generateToken.js";
-import { updateProduct } from "./productController.js";
+
 
 // @desc Auth user and get token;
 // @routes GET api/users/login
@@ -212,8 +212,66 @@ const updateUser = asyncHandler( async(req ,res) => {
     }
  
  });
+//  const createUser = asyncHandler(async (req, res) => {
+//    const user = new User({
+//      name: 'name',
+//      email: 'Sample@gmail.com',
+//      password: 'samplepassword',
+    
+//    });
+ 
+//    try {
+//      const createdUser = await user.save();
+//      res.status(201).json(createdUser);
+//    } catch (error) {
+//      console.error('Error saving user:', error);
+//      res.status(500).json({ error: 'Internal Server Error' });
+//    }
+//  });
 
-export {getUserById,deleteUsers,registeredUser,getUserProfile,getUsers,updateUser,updateUserProfile,authUser,logoutUser,}
+
+//  const createUser = asyncHandler(async (req, res) => {
+//    const user = new User({
+//      name: 'name',
+//      email : "Sample@gmail.com",
+//      password : "samplepassword",
+     
+     
+//    });
+ 
+//    const createdUser = await user.save();
+//    res.status(201).json(createdUser);
+//  });
+// Server-side
+const createUser = asyncHandler(async (req, res) => {
+   console.log('Request body:', req.body);
+
+   const user = new User({
+           name: 'name',
+           email : "Sample@gmail.com",
+           password : "samplepassword",
+           
+           
+         });
+ 
+   
+ 
+   try {
+      console.log("user" ,user);
+     const createdUser = await user.save();
+     res.status(201).json(createdUser);
+     
+   } catch (error) {
+     console.error('Error saving user:', error);
+     res.status(500).json({ error: 'Internal Server Error' });
+   }
+ });
+ 
+
+
+
+
+export {getUserById,createUser,deleteUsers,registeredUser,getUserProfile,getUsers,updateUser,updateUserProfile,authUser,logoutUser,}
 
 
 

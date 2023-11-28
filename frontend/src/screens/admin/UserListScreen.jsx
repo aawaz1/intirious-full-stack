@@ -1,14 +1,15 @@
 import { LinkContainer } from "react-router-bootstrap";
-import { Table, Button } from "react-bootstrap";
+import { Table, Button,Row , Col } from "react-bootstrap";
 import { FaCheck, FaEdit,FaTimes, FaTrash } from "react-icons/fa";
 import Message from "../../message/Message";
 import Loader from "../../components/Loader/Loader";
 import {toast} from 'react-toastify';
-import { useGetUsersQuery , useDeleteUsersMutation } from "../../slices/usersApiSlice";
+import { useCreateUserMutation,useGetUsersQuery , useDeleteUsersMutation } from "../../slices/usersApiSlice";
 
 const UserListScreen = () => {
     const {data : users , refetch ,isLoading, error } = useGetUsersQuery();
-    const [deleteUser , {isLoading : loadingDeleting}] = useDeleteUsersMutation()
+    const [deleteUser , {isLoading : loadingDeleting}] = useDeleteUsersMutation();
+    const [createUser , {isLoading : loadingCreate } ] = useCreateUserMutation()
 
     const deleteHandler = async (id) => {
         if(window.confirm("Are You Sure")){
@@ -24,10 +25,38 @@ const UserListScreen = () => {
         }
 
     }
+
+    const createProductHandler = async() => {
+      if(window.confirm("Are you Sure ? you want to create a new user")){
+        try {
+          await createUser();
+          refetch();
+          
+        } catch (err) {
+          toast.error(err?.data?.message || err?.message);
+          
+        }
+
+
+
+      }
+
+    }
     
   return (  
    <>
     <h1>Users</h1>
+    <Row className="align-items-center">
+   <Col className="text-end">
+    <Button className="btn-sm m-3"
+    onClick={createProductHandler}>
+      <FaEdit/> Create Users
+
+    </Button>
+   </Col>
+
+  </Row>
+  {loadingCreate && <Loader/>}
     {isLoading ? (
       <Loader/>
     ) : error ? (<Message variant='danger'>{error}</Message>)
