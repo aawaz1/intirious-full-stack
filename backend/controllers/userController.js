@@ -250,17 +250,15 @@ const createUser = asyncHandler(async (req, res) => {
            name: 'name',
            email : "Sample@gmail.com",
            password : "samplepassword",
-           
-           
          });
- 
-   
- 
    try {
-      console.log("user" ,user);
+      const userExists = await User.findOne({email:user.email});
+      if(userExists){
+         res.status(200).json({error : "User already Exists"});
+
+      }
      const createdUser = await user.save();
-     res.status(201).json(createdUser);
-     
+     res.status(200).json({message : "User Created Successfully"});
    } catch (error) {
      console.error('Error saving user:', error);
      res.status(500).json({ error: 'Internal Server Error' });
