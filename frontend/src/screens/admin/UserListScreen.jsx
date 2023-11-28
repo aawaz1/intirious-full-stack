@@ -29,16 +29,17 @@ const UserListScreen = () => {
     const createProductHandler = async() => {
       if(window.confirm("Are you Sure ? you want to create a new user")){
         try {
-          await createUser();
+          const res = await createUser();
+          if(res.data?.error){
+            toast.error(res.data?.error);
+          }else
+            toast.success("User Created Sucessfully")
           refetch();
           
         } catch (err) {
+          console.log(err)
           toast.error(err?.data?.message || err?.message);
-          
         }
-
-
-
       }
 
     }

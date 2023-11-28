@@ -5,7 +5,7 @@ import { protect, admin } from '../middlewares/authMiddleware.js';
 
 router.route("/").post(registeredUser,).get(protect,admin,getUsers);
 router.post("/logout",logoutUser);
-router.post("/createuser", createUser ,protect,admin)
+router.route("/createuser").post(createUser ,protect,admin);
 router.post("/auth",authUser);
 router.route("/profile").get(protect,getUserProfile).put(protect,updateUserProfile);
 router.route("/:id").delete(protect,admin,deleteUsers).get(protect,admin,getUserById).put(protect,admin,updateUser);

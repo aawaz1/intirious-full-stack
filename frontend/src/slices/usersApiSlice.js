@@ -90,10 +90,6 @@ export const usersApiSLlice = apiSlice.injectEndpoints({
              url : `${USERS_URL}/createuser`,
             method : 'POST',
             }),
-            
-
-
-
           })
         
  })
